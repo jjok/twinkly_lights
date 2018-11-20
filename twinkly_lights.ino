@@ -7,7 +7,7 @@ int motionPin = 4;
 // State
 int pirState = LOW;
 
-double brightness = 1;
+uint8_t brightness = 255;
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(50, ledDataPin, NEO_RGB + NEO_KHZ800);
 
@@ -15,11 +15,12 @@ void setup() {
   pinMode(ledDataPin, OUTPUT);
   pinMode(motionPin, INPUT);
   strip.begin();
+  strip.setBrightness(brightness);
   strip.show();
 }
 
 void loop() {
-  uint8_t pixel, colour, dimmedColour;
+  uint8_t pixel, colour;
   int val = 0;
 
   val = digitalRead(motionPin);
@@ -31,12 +32,11 @@ void loop() {
 
     pixel = random(strip.numPixels());
     colour = random(255);
-    dimmedColour = colour * brightness;
 
-    strip.setPixelColor(pixel, strip.Color(dimmedColour, dimmedColour, dimmedColour));
+    strip.setPixelColor(pixel, strip.Color(colour, colour, colour));
 
     strip.show();
-    delay(100);
+    delay(200);
 
   } else {
     if (pirState == HIGH) {
@@ -48,3 +48,9 @@ void loop() {
     delay(500);
   }
 }
+
+//int anyLightsAreOn(Adafruit_NeoPixel lights) {
+//  for(int n = 0; n < l; n++) {
+//
+//  }
+//}
